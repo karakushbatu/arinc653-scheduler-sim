@@ -1,0 +1,90 @@
+# This file is a profile collection, not a file the program reads directly.
+# To test a scenario:
+# 1. Copy one profile block below
+# 2. Paste it into a new file named config.txt in the repository root
+# 3. Run the program again
+#
+# Important rule:
+# flight_control_window_ms + display_window_ms must equal major_cycle_ms
+
+# --------------------------------------------------
+# Profile 1: Default demonstration profile
+# Use this for the main presentation flow.
+# It runs 5 cycles and triggers the Display fault in cycle 3.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+display_failure_cycle=3
+timestamps_enabled=true
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 2: Early-fault profile
+# Use this to show fault isolation earlier in the demo.
+# The Display fault appears in cycle 2.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+display_failure_cycle=2
+timestamps_enabled=true
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 3: Extended-run profile
+# Use this to show that the static schedule repeats consistently.
+# The system runs longer and the Display fault moves to cycle 5.
+# --------------------------------------------------
+cycle_count=8
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+display_failure_cycle=5
+timestamps_enabled=true
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 4: No-timestamp profile
+# Use this if you want cleaner logs without the simulated time prefix.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+display_failure_cycle=3
+timestamps_enabled=false
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 5: Fast-testing profile
+# Use this for quick testing without real waiting.
+# The logical schedule stays the same, but the run finishes faster.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+display_failure_cycle=3
+timestamps_enabled=true
+emulate_timing=false
+
+
+# --------------------------------------------------
+# Profile 6: Alternate window profile
+# Use this to show that window durations can change while the major cycle stays fixed.
+# The execution order is still Flight Control -> Display System.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=70
+display_window_ms=30
+display_failure_cycle=3
+timestamps_enabled=true
+emulate_timing=true
