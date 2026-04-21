@@ -45,11 +45,13 @@ void Scheduler::run() {
         for (std::size_t index = 0; index < schedule_.size(); ++index) {
             executePartition(schedule_[index], cycle);
             simulatedTime_ += std::chrono::milliseconds(schedule_[index].windowMs);
-        }
 
-        if (healthMonitor_.hasCriticalFailures()) {
-            logger_.logError("Critical failure detected. Scheduler stopped.", simulatedTime_);
-            break;
+            if (healthMonitor_.hasCriticalFailures()) {
+                logger_.logError("Critical failure detected. Scheduler stopped.", simulatedTime_);
+                healthMonitor_.logSummary(logger_, simulatedTime_);
+                logger_.logInfo("Scheduler finished.", simulatedTime_);
+                return;
+            }
         }
     }
 

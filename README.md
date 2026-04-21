@@ -157,6 +157,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=true
 emulate_timing=true
@@ -177,6 +178,7 @@ The supported keys are:
 - `major_cycle_ms`: total major cycle duration
 - `flight_control_window_ms`: Flight Control window duration
 - `display_window_ms`: Display System window duration
+- `flight_control_failure_cycle`: which cycle should trigger the Flight Control fault, `0` means disabled
 - `display_failure_cycle`: which cycle should trigger the display fault
 - `timestamps_enabled`: `true` or `false`
 - `emulate_timing`: `true` or `false`
@@ -192,6 +194,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=2
 timestamps_enabled=true
 emulate_timing=true
@@ -207,6 +210,7 @@ cycle_count=8
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=5
 timestamps_enabled=true
 emulate_timing=true
@@ -222,6 +226,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=false
 emulate_timing=true
@@ -237,6 +242,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=true
 emulate_timing=false
@@ -252,6 +258,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=70
 display_window_ms=30
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=true
 emulate_timing=true
@@ -261,6 +268,41 @@ Expected effect:
 - the partition order stays the same
 - simulated timestamps change according to the new static windows
 - the schedule is still valid because `70 + 30 = 100`
+
+#### 6. Trigger a critical Flight Control fault
+```text
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+flight_control_failure_cycle=4
+display_failure_cycle=0
+timestamps_enabled=true
+emulate_timing=true
+```
+Expected effect:
+
+- Flight Control fails in cycle 4
+- the fault is recorded as critical
+- the scheduler stops after detecting the critical failure
+- later cycles do not run
+
+#### 7. Compare non-critical and critical fault behavior together
+```text
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+flight_control_failure_cycle=4
+display_failure_cycle=2
+timestamps_enabled=true
+emulate_timing=true
+```
+Expected effect:
+
+- Display fails in cycle 2 and the system continues
+- Flight Control fails in cycle 4 and the scheduler stops
+- this demonstrates mixed-criticality fault handling clearly
 
 ## 13. Example Output
 ```text

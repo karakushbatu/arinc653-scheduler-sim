@@ -12,6 +12,7 @@ struct Config {
     int majorCycleMs;
     int flightControlWindowMs;
     int displayWindowMs;
+    std::size_t flightControlFailureCycle;
     std::size_t displayFailureCycle;
     bool timestampsEnabled;
     bool emulateTiming;
@@ -21,6 +22,7 @@ struct Config {
           majorCycleMs(100),
           flightControlWindowMs(60),
           displayWindowMs(40),
+          flightControlFailureCycle(0),
           displayFailureCycle(3),
           timestampsEnabled(true),
           emulateTiming(true) {}
@@ -54,6 +56,8 @@ struct Config {
                 config.flightControlWindowMs = parseInt(value, key);
             } else if (key == "display_window_ms") {
                 config.displayWindowMs = parseInt(value, key);
+            } else if (key == "flight_control_failure_cycle") {
+                config.flightControlFailureCycle = parseSizeT(value, key);
             } else if (key == "display_failure_cycle") {
                 config.displayFailureCycle = parseSizeT(value, key);
             } else if (key == "timestamps_enabled") {
@@ -78,6 +82,14 @@ struct Config {
 
         if (flightControlWindowMs + displayWindowMs != majorCycleMs) {
             throw std::runtime_error("Flight Control and Display windows must sum to the major cycle time.");
+        }
+
+        if (flightControlFailureCycle > cycleCount) {
+            throw std::runtime_error("flightControlFailureCycle must be zero or within the configured cycle count.");
+        }
+
+        if (displayFailureCycle > cycleCount) {
+            throw std::runtime_error("displayFailureCycle must be zero or within the configured cycle count.");
         }
     }
 

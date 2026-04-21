@@ -18,7 +18,7 @@ int main() {
         HealthMonitor healthMonitor;
         Scheduler scheduler(config, logger, healthMonitor);
 
-        std::shared_ptr<IPartition> flightControl(new FlightControl());
+        std::shared_ptr<IPartition> flightControl(new FlightControl(config.flightControlFailureCycle));
         std::shared_ptr<IPartition> displaySystem(new DisplaySystem(config.displayFailureCycle));
 
         scheduler.addPartition(flightControl, config.flightControlWindowMs);

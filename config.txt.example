@@ -16,6 +16,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=true
 emulate_timing=true
@@ -30,6 +31,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=2
 timestamps_enabled=true
 emulate_timing=true
@@ -44,6 +46,7 @@ cycle_count=8
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=5
 timestamps_enabled=true
 emulate_timing=true
@@ -57,6 +60,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=false
 emulate_timing=true
@@ -71,6 +75,7 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=60
 display_window_ms=40
+flight_control_failure_cycle=0
 display_failure_cycle=3
 timestamps_enabled=true
 emulate_timing=false
@@ -85,6 +90,37 @@ cycle_count=5
 major_cycle_ms=100
 flight_control_window_ms=70
 display_window_ms=30
+flight_control_failure_cycle=0
 display_failure_cycle=3
+timestamps_enabled=true
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 7: Critical-fault profile
+# Use this to show how the system reacts to a Flight Control failure.
+# Flight Control is critical, so the scheduler stops after the fault is recorded.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+flight_control_failure_cycle=4
+display_failure_cycle=0
+timestamps_enabled=true
+emulate_timing=true
+
+
+# --------------------------------------------------
+# Profile 8: Mixed-fault profile
+# Use this to show both behaviors together.
+# Display fails first and the system continues, then Flight Control fails later and the scheduler stops.
+# --------------------------------------------------
+cycle_count=5
+major_cycle_ms=100
+flight_control_window_ms=60
+display_window_ms=40
+flight_control_failure_cycle=4
+display_failure_cycle=2
 timestamps_enabled=true
 emulate_timing=true
